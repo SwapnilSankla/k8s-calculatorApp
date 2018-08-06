@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-api-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: calculator-api
+  template:
+    metadata:
+      labels:
+        app: calculator-api
+    spec:
+      containers:
+      - name: calculator-api
+        image: calculator-api:v0.3
+        ports:
+          - containerPort: 3000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 3
